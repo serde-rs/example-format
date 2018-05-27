@@ -1,7 +1,9 @@
-use std::ops::{Neg, AddAssign, MulAssign};
+use std::ops::{AddAssign, MulAssign, Neg};
 
-use serde::de::{self, Deserialize, DeserializeSeed, Visitor, SeqAccess,
-                MapAccess, EnumAccess, VariantAccess, IntoDeserializer};
+use serde::de::{
+    self, Deserialize, DeserializeSeed, EnumAccess, IntoDeserializer, MapAccess, SeqAccess,
+    VariantAccess, Visitor,
+};
 
 use error::{Error, Result};
 
@@ -319,11 +321,7 @@ impl<'de, 'a> de::Deserializer<'de> for &'a mut Deserializer<'de> {
     }
 
     // Unit struct means a named value containing no data.
-    fn deserialize_unit_struct<V>(
-        self,
-        _name: &'static str,
-        visitor: V
-    ) -> Result<V::Value>
+    fn deserialize_unit_struct<V>(self, _name: &'static str, visitor: V) -> Result<V::Value>
     where
         V: Visitor<'de>,
     {
@@ -333,11 +331,7 @@ impl<'de, 'a> de::Deserializer<'de> for &'a mut Deserializer<'de> {
     // As is done here, serializers are encouraged to treat newtype structs as
     // insignificant wrappers around the data they contain. That means not
     // parsing anything other than the contained value.
-    fn deserialize_newtype_struct<V>(
-        self,
-        _name: &'static str,
-        visitor: V
-    ) -> Result<V::Value>
+    fn deserialize_newtype_struct<V>(self, _name: &'static str, visitor: V) -> Result<V::Value>
     where
         V: Visitor<'de>,
     {
@@ -372,11 +366,7 @@ impl<'de, 'a> de::Deserializer<'de> for &'a mut Deserializer<'de> {
     // As indicated by the length parameter, the `Deserialize` implementation
     // for a tuple in the Serde data model is required to know the length of the
     // tuple before even looking at the input data.
-    fn deserialize_tuple<V>(
-        self,
-        _len: usize,
-        visitor: V
-    ) -> Result<V::Value>
+    fn deserialize_tuple<V>(self, _len: usize, visitor: V) -> Result<V::Value>
     where
         V: Visitor<'de>,
     {
@@ -388,7 +378,7 @@ impl<'de, 'a> de::Deserializer<'de> for &'a mut Deserializer<'de> {
         self,
         _name: &'static str,
         _len: usize,
-        visitor: V
+        visitor: V,
     ) -> Result<V::Value>
     where
         V: Visitor<'de>,
@@ -428,7 +418,7 @@ impl<'de, 'a> de::Deserializer<'de> for &'a mut Deserializer<'de> {
         self,
         _name: &'static str,
         _fields: &'static [&'static str],
-        visitor: V
+        visitor: V,
     ) -> Result<V::Value>
     where
         V: Visitor<'de>,
@@ -440,7 +430,7 @@ impl<'de, 'a> de::Deserializer<'de> for &'a mut Deserializer<'de> {
         self,
         _name: &'static str,
         _variants: &'static [&'static str],
-        visitor: V
+        visitor: V,
     ) -> Result<V::Value>
     where
         V: Visitor<'de>,
@@ -466,10 +456,7 @@ impl<'de, 'a> de::Deserializer<'de> for &'a mut Deserializer<'de> {
     // the variant of an enum. In JSON, struct fields and enum variants are
     // represented as strings. In other formats they may be represented as
     // numeric indices.
-    fn deserialize_identifier<V>(
-        self,
-        visitor: V
-    ) -> Result<V::Value>
+    fn deserialize_identifier<V>(self, visitor: V) -> Result<V::Value>
     where
         V: Visitor<'de>,
     {
@@ -487,10 +474,7 @@ impl<'de, 'a> de::Deserializer<'de> for &'a mut Deserializer<'de> {
     // Some formats are not able to implement this at all. Formats that can
     // implement `deserialize_any` and `deserialize_ignored_any` are known as
     // self-describing.
-    fn deserialize_ignored_any<V>(
-        self,
-        visitor: V
-    ) -> Result<V::Value>
+    fn deserialize_ignored_any<V>(self, visitor: V) -> Result<V::Value>
     where
         V: Visitor<'de>,
     {
@@ -508,7 +492,10 @@ struct CommaSeparated<'a, 'de: 'a> {
 
 impl<'a, 'de> CommaSeparated<'a, 'de> {
     fn new(de: &'a mut Deserializer<'de>) -> Self {
-        CommaSeparated { de: de, first: true }
+        CommaSeparated {
+            de: de,
+            first: true,
+        }
     }
 }
 
@@ -639,11 +626,7 @@ impl<'de, 'a> VariantAccess<'de> for Enum<'a, 'de> {
 
     // Struct variants are represented in JSON as `{ NAME: { K: V, ... } }` so
     // deserialize the inner map here.
-    fn struct_variant<V>(
-        self,
-        _fields: &'static [&'static str],
-        visitor: V,
-    ) -> Result<V::Value>
+    fn struct_variant<V>(self, _fields: &'static [&'static str], visitor: V) -> Result<V::Value>
     where
         V: Visitor<'de>,
     {
@@ -662,7 +645,10 @@ fn test_struct() {
     }
 
     let j = r#"{"int":1,"seq":["a","b"]}"#;
-    let expected = Test { int: 1, seq: vec!["a".to_owned(), "b".to_owned()] };
+    let expected = Test {
+        int: 1,
+        seq: vec!["a".to_owned(), "b".to_owned()],
+    };
     assert_eq!(expected, from_str(j).unwrap());
 }
 
