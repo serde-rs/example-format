@@ -2,7 +2,7 @@
 name = "serde-example"
 version = "0.1.0"
 authors = ["David Tolnay <dtolnay@gmail.com>"]
-license = "MIT/Apache-2.0"
+license = "MIT OR Apache-2.0"
 description = "An example Serializer and Deserializer data format for Serde"
 repository = "https://github.com/serde-rs/example-format"
 documentation = "https://serde.rs/data-format.html"
