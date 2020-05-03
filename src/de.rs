@@ -653,45 +653,50 @@ impl<'de, 'a> VariantAccess<'de> for Enum<'a, 'de> {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#[test]
-fn test_struct() {
-    #[derive(Deserialize, PartialEq, Debug)]
-    struct Test {
-        int: u32,
-        seq: Vec<String>,
+#[cfg(test)]
+mod tests {
+    use super::from_str;
+
+    #[test]
+    fn test_struct() {
+        #[derive(Deserialize, PartialEq, Debug)]
+        struct Test {
+            int: u32,
+            seq: Vec<String>,
+        }
+
+        let j = r#"{"int":1,"seq":["a","b"]}"#;
+        let expected = Test {
+            int: 1,
+            seq: vec!["a".to_owned(), "b".to_owned()],
+        };
+        assert_eq!(expected, from_str(j).unwrap());
     }
 
-    let j = r#"{"int":1,"seq":["a","b"]}"#;
-    let expected = Test {
-        int: 1,
-        seq: vec!["a".to_owned(), "b".to_owned()],
-    };
-    assert_eq!(expected, from_str(j).unwrap());
-}
+    #[test]
+    fn test_enum() {
+        #[derive(Deserialize, PartialEq, Debug)]
+        enum E {
+            Unit,
+            Newtype(u32),
+            Tuple(u32, u32),
+            Struct { a: u32 },
+        }
 
-#[test]
-fn test_enum() {
-    #[derive(Deserialize, PartialEq, Debug)]
-    enum E {
-        Unit,
-        Newtype(u32),
-        Tuple(u32, u32),
-        Struct { a: u32 },
+        let j = r#""Unit""#;
+        let expected = E::Unit;
+        assert_eq!(expected, from_str(j).unwrap());
+
+        let j = r#"{"Newtype":1}"#;
+        let expected = E::Newtype(1);
+        assert_eq!(expected, from_str(j).unwrap());
+
+        let j = r#"{"Tuple":[1,2]}"#;
+        let expected = E::Tuple(1, 2);
+        assert_eq!(expected, from_str(j).unwrap());
+
+        let j = r#"{"Struct":{"a":1}}"#;
+        let expected = E::Struct { a: 1 };
+        assert_eq!(expected, from_str(j).unwrap());
     }
-
-    let j = r#""Unit""#;
-    let expected = E::Unit;
-    assert_eq!(expected, from_str(j).unwrap());
-
-    let j = r#"{"Newtype":1}"#;
-    let expected = E::Newtype(1);
-    assert_eq!(expected, from_str(j).unwrap());
-
-    let j = r#"{"Tuple":[1,2]}"#;
-    let expected = E::Tuple(1, 2);
-    assert_eq!(expected, from_str(j).unwrap());
-
-    let j = r#"{"Struct":{"a":1}}"#;
-    let expected = E::Struct { a: 1 };
-    assert_eq!(expected, from_str(j).unwrap());
 }
