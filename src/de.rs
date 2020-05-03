@@ -6,14 +6,12 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use std::ops::{AddAssign, MulAssign, Neg};
-
+use crate::error::{Error, Result};
 use serde::de::{
     self, Deserialize, DeserializeSeed, EnumAccess, IntoDeserializer,
     MapAccess, SeqAccess, VariantAccess, Visitor,
 };
-
-use error::{Error, Result};
+use std::ops::{AddAssign, MulAssign, Neg};
 
 pub struct Deserializer<'de> {
     // This string starts with the input data and characters are truncated off
@@ -656,6 +654,7 @@ impl<'de, 'a> VariantAccess<'de> for Enum<'a, 'de> {
 #[cfg(test)]
 mod tests {
     use super::from_str;
+    use serde_derive::Deserialize;
 
     #[test]
     fn test_struct() {

@@ -6,10 +6,8 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use std;
-use std::fmt::{self, Display};
-
 use serde::{de, ser};
+use std::fmt::{self, Display};
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -60,8 +58,8 @@ impl de::Error for Error {
 
 impl Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match *self {
-            Error::Message(ref msg) => write!(f, "{}", msg),
+        match self {
+            Error::Message(msg) => write!(f, "{}", msg),
             Error::Eof => f.write_str("unexpected end of input"),
             /* and so forth */
             _ => unimplemented!(),

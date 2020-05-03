@@ -6,9 +6,8 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+use crate::error::{Error, Result};
 use serde::ser::{self, Serialize};
-
-use error::{Error, Result};
 
 pub struct Serializer {
     // This string starts empty and JSON is appended as values are serialized.
@@ -504,6 +503,7 @@ impl<'a> ser::SerializeStructVariant for &'a mut Serializer {
 #[cfg(test)]
 mod tests {
     use super::to_string;
+    use serde_derive::Serialize;
 
     #[test]
     fn test_struct() {
