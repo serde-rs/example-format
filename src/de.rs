@@ -508,10 +508,7 @@ struct CommaSeparated<'a, 'de: 'a> {
 
 impl<'a, 'de> CommaSeparated<'a, 'de> {
     fn new(de: &'a mut Deserializer<'de>) -> Self {
-        CommaSeparated {
-            de,
-            first: true,
-        }
+        CommaSeparated { de, first: true }
     }
 }
 
