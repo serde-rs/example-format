@@ -59,18 +59,14 @@ impl de::Error for Error {
 }
 
 impl Display for Error {
-    fn fmt(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        formatter.write_str(std::error::Error::description(self))
-    }
-}
-
-impl std::error::Error for Error {
-    fn description(&self) -> &str {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            Error::Message(ref msg) => msg,
-            Error::Eof => "unexpected end of input",
+            Error::Message(ref msg) => write!(f, "{}", msg),
+            Error::Eof => f.write_str("unexpected end of input"),
             /* and so forth */
             _ => unimplemented!(),
         }
     }
 }
+
+impl std::error::Error for Error {}
