@@ -9,6 +9,7 @@ documentation = "https://serde.rs/data-format.html"
 keywords = ["serde"]
 categories = ["encoding"]
 edition = "2018"
+rust-version = "1.31"
 publish = false
 
 [dependencies]
