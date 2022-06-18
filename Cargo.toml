@@ -8,8 +8,8 @@ repository = "https://github.com/serde-rs/example-format"
 documentation = "https://serde.rs/data-format.html"
 keywords = ["serde"]
 categories = ["encoding"]
-edition = "2018"
-rust-version = "1.31"
+edition = "2021"
+rust-version = "1.56"
 publish = false
 
 [dependencies]
