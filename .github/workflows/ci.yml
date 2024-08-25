@@ -27,6 +27,11 @@ jobs:
         with:
           toolchain: ${{matrix.rust}}
       - run: cargo test
+      - uses: actions/upload-artifact@v4
+        if: matrix.rust == 'nightly' && always()
+        with:
+          name: Cargo.lock
+          path: Cargo.lock
 
   doc:
     name: Documentation
