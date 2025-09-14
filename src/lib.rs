@@ -6,6 +6,8 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+extern crate serde_core as serde;
+
 mod de;
 mod error;
 mod ser;
