@@ -10,7 +10,7 @@ keywords = ["serde"]
 license = "MIT OR Apache-2.0"
 publish = false
 repository = "https://github.com/serde-rs/example-format"
-rust-version = "1.56"
+rust-version = "1.61"
 
 [dependencies]
 serde = "1"
